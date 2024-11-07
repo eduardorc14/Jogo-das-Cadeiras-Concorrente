@@ -28,7 +28,7 @@ std::atomic<bool> jogo_ativo{true};
  * O método `release()` também pode ser usado para liberar múltiplas permissões de uma só vez, por exemplo: `cadeira_sem.release(3);`,
  * o que permite destravar várias threads de uma só vez, como é feito na função `liberar_threads_eliminadas()`.
  *
- * Métodos da classe `std::counting_semaphore`:
+ *`:
  * 
  * 1. `acquire()`: Decrementa o contador do semáforo. Bloqueia a thread se o valor for zero.
  *    - Exemplo de uso: `cadeira_sem.acquire();` // Jogador tenta ocupar uma cadeira.
@@ -49,6 +49,8 @@ public:
 
     void parar_musica() {
         // TODO: Simula o momento em que a música para e notifica os jogadores via variável de condição
+        musica_parada = true;
+        music_cv.notify_all();
     }
 
     void eliminar_jogador(int jogador_id) {
@@ -57,6 +59,7 @@ public:
 
     void exibir_estado() {
         // TODO: Exibe o estado atual das cadeiras e dos jogadores
+        
     }
 
 private:
@@ -71,10 +74,19 @@ public:
 
     void tentar_ocupar_cadeira() {
         // TODO: Tenta ocupar uma cadeira utilizando o semáforo contador quando a música para (aguarda pela variável de condição)
+        std::unique_lock<std::mutex> lock(music_mutex);
+        while(!musica_parada){
+            music_cv.wait(lock, []{ return !musica_parada; });
+        }
+
+        //O jogador tentar ocupar uma cadeira
+        cadeira_sem.acquire();
+
     }
 
     void verificar_eliminacao() {
         // TODO: Verifica se foi eliminado após ser destravado do semáforo
+
     }
 
     void joga() {
@@ -98,7 +110,7 @@ public:
         : jogo(jogo) {}
 
     void iniciar_jogo() {
-        // TODO: Começa o jogo, dorme por um período aleatório, e então para a música, sinalizando os jogadores 
+        // TODO: Começa o jogo, dorme por um período aleatório, e então para a música, sinalizando os jogadores
     }
 
     void liberar_threads_eliminadas() {
