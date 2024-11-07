@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/eduardo/Documentos/Graduacao/AutomacaoTempoReal/musicalchairs/build",
+  "command": "/usr/bin/g++   -g -std=gnu++20 -o CMakeFiles/JogoDasCadeiras.dir/src/main.cpp.o -c /home/eduardo/Documentos/Graduacao/AutomacaoTempoReal/musicalchairs/src/main.cpp",
+  "file": "/home/eduardo/Documentos/Graduacao/AutomacaoTempoReal/musicalchairs/src/main.cpp",
+  "output": "CMakeFiles/JogoDasCadeiras.dir/src/main.cpp.o"
+}
+]
